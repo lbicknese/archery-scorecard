@@ -34,9 +34,9 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    Contents: '**/test/*.png'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    SourceFolder: '$(System.DefaultWorkingDirectory)/tests/e2e/reports/test/'
+    Contents: '**/*.png'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/screenshots/'
 
 - task: PublishTestResults@2
   inputs:
