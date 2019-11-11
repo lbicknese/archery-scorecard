@@ -21,6 +21,7 @@ steps:
 
 - script: npm run test:unit
   displayName: 'unit tests'
+
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
@@ -31,5 +32,13 @@ steps:
 - script: npm run test:e2e
   displayName: 'e2e tests'
 
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: './tests/e2e/reports/*.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+    testRunTitle: 'e2e Tests'
+
 - script: npm run build
-  displayName: 'npm install, test and build'
+  displayName: 'npm build'
