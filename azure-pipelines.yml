@@ -10,14 +10,23 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  npm_config_cache: $(Pipeline.Workspace)/.npm
+
 steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+- task: CacheBeta@0
+  inputs:
+    key: npm | $(Agent.OS) | package-lock.json
+    path: $(npm_config_cache)
+  displayName: Cache npm
+
 - script: |
-    npm install
+    npm ci
     npm run test:unit
     npm run test:e2e
     npm run build
@@ -31,3 +40,15 @@ steps:
       **/e2e/reports/*.xml
     mergeTestResults: true
     failTaskOnFailedTests: true
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: 'dist/**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
