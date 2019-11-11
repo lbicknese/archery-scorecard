@@ -37,7 +37,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/*test.xml'
+    testResultsFiles: '**/e2e/reports/*.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
     testRunTitle: 'e2e Tests'
