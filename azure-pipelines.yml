@@ -32,12 +32,6 @@ steps:
     npm run build
   displayName: 'npm install, test, and build'
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)/tests/e2e/reports/test/'
-    Contents: '**/*.png'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/screenshots/'
-
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
@@ -46,6 +40,13 @@ steps:
       **/e2e/reports/*.xml
     mergeTestResults: true
     failTaskOnFailedTests: true
+
+- task: CopyFiles@2
+  condition: failed()
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/tests/e2e/reports/test/'
+    Contents: '**/*.png'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/screenshots/'
 
 - task: CopyFiles@2
   inputs:
