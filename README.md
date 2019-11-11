@@ -1,5 +1,7 @@
 # archery-scorecard
 
+[![Build Status](https://dev.azure.com/lukebicknese/lukebicknese/_apis/build/status/lbicknese.archery-scorecard?branchName=master)](https://dev.azure.com/lukebicknese/lukebicknese/_build/latest?definitionId=1&branchName=master)
+
 ## Project setup
 ```
 npm install
